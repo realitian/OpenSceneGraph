@@ -2542,8 +2542,10 @@ void Texture::applyTexImage2D_subload(State& state, GLenum target, const Image* 
     if (pbo && !needImageRescale && !useGluBuildMipMaps)
     {
         state.bindPixelBufferObject(pbo);
+#if !defined(OSG_GLES1_AVAILABLE) && !defined(OSG_GLES2_AVAILABLE)
         dataPtr = reinterpret_cast<unsigned char*>(pbo->getOffset(image->getBufferIndex()));
-        rowLength = 0;
+       rowLength = 0;
+#endif
 #ifdef DO_TIMING
         OSG_NOTICE<<"after PBO "<<osg::Timer::instance()->delta_m(start_tick,osg::Timer::instance()->tick())<<"ms"<<std::endl;
 #endif
